@@ -34,8 +34,8 @@ def update_book(request, book_id: int, payload: CreateBookSchema):
     return book
 
 
-@api.delect('books/{book_id}')
-def delect_book(request, book_id: int)
+@api.delete('books/{book_id}')
+def delete_book(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
     book.delect()
     return {'success': True}
