@@ -12,5 +12,6 @@ class BookSchema(Schema):
 class CreateBookSchema(Schema):
     title: str
     author: str
+    published_date: date
     isbn: str
 
