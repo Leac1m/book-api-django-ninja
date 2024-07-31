@@ -24,7 +24,7 @@ class BookAPITest(TestCase):
         }
 
         return super().setUpTestData()
-    
+
     def test_model_content(self):
         self.assertEqual(self.book.title, "Test Book")
         self.assertEqual(self.book.author, "Mickel")
@@ -32,8 +32,7 @@ class BookAPITest(TestCase):
         self.assertEqual(self.book.isbn, "1234567890111")
 
     def test_api_listview(self):
-        url = reverse('api-1:list_books')
-        response = self.client.get(url)
+        response = self.client.get(reverse('api-1:list_books'))
         self.assertEqual(response.json(), [{
             "id": 1,
             "title": "Test Book",
@@ -42,23 +41,22 @@ class BookAPITest(TestCase):
             "isbn": "1234567890111"
             }]
         )
-    
+
     def test_api_detailview(self):
-        url = reverse(
-            'api-1:detail_book', kwargs={"book_id": self.book.id})
+        url = reverse('api-1:detail_book', kwargs={"book_id": self.book.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            response.json(), 
+            response.json(),
             {
                 "id": 1,
                 "title": "Test Book",
                 "author": "Mickel",
                 "published_date": "2024-07-28",
-                "isbn": "1234567890111"  
+                "isbn": "1234567890111"
             }
         )
-        
+
     # def test_api_updateview(self):
     #     url = reverse("api-1:update_book", kwargs={"book_id": self.book.id})
     #     response = self.client.put(url,
@@ -77,7 +75,7 @@ class BookAPITest(TestCase):
     #             "title": "Name Change",
     #             "author": "Bob",
     #             "published_date": "2024-07-28",
-    #             "isbn": "1234567890111" 
+    #             "isbn": "1234567890111"
     #         }
     #     )
     #     self.assertEqual(self.book.title, "Name Change")
@@ -85,25 +83,22 @@ class BookAPITest(TestCase):
 
     # def test_api_createview(self):
     #     url = reverse("api-1:create_book")
-    #     payload = {
-    #         "title": "The Second Book",
-    #         "author": "Divine",
-    #         "published_date": "2024-07-28",
-    #         "isbn": "1234567890112"
-    #     }
-
-    #     print(payload)
     #     response = self.client.post(
-    #         url, data=payload)
-            
-    
+    #         url,
+    #         json=json.dumps({
+    #         "title": "New Book",
+    #         "author": "New Author",
+    #         "published_date": "2024-01-01",
+    #         "isbn": "9876543210987"
+    #     }))
+    #     print(response.content)
     #     self.assertEqual(response.status_code, 201)
     #     self.assertEqual(Book.objects.count(), 2)
-    #     self.assertContains(response.json(), "Divine")
+    #     self.assertEqual(response.json()["title"], "New Book")
 
     # def test_api_deleteview(self):
-    #     url = reverse("api-1:delete_book", kwargs={"book_id": 2})
+    #     url = reverse("api-1:delete_book", args=[self.book.id])
     #     response = self.client.delete(url)
+    #     print(response.content)
     #     self.assertEqual(response.status_code, 204)
-    #     self.assertFalse(Book.objects.filter(id=2).exists())
-
+    #     self.assertFalse(Book.objects.filter(id=1).exists())

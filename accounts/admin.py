@@ -21,4 +21,3 @@ fieldsets = UserAdmin.fieldsets + ((None, {'fields': ('name',)}),)
 add_fieldset = UserAdmin.add_fieldsets + ((None, {'fields': ('name',)}),)
 
 admin.site.register(CustomUser, CustomUserAdmin)
-

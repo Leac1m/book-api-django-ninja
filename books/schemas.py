@@ -1,6 +1,7 @@
 from ninja import Schema
 from datetime import date
 
+
 class BookSchema(Schema):
     id: int
     title: str
@@ -14,4 +15,3 @@ class CreateBookSchema(Schema):
     author: str
     published_date: date
     isbn: str
-
