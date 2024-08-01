@@ -1,38 +1,56 @@
-from urllib.error import HTTPError
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI, Router
 
+from ninja_extra import NinjaExtraAPI
+from ninja_jwt.controller import NinjaJWTDefaultController
+
+from .auth import api_auth_user_or_annon, api_auth_user_required
 from .models import Book
 from .schemas import BookSchema, CreateBookSchema
+# import helpers
 
 
-api = NinjaAPI(version=1)
+api = NinjaExtraAPI(version=1)
+api.register_controllers(NinjaJWTDefaultController)
 router = Router()
 
 
-@router.get('/books', response=list[BookSchema], url_name='list_books')
+@router.get('/books',
+             response=list[BookSchema],
+             url_name='list_books',
+             auth=api_auth_user_or_annon
+             )
 def list_books(request):
     books = Book.objects.all()
     return books
 
 
-@router.post('/books', response=BookSchema, url_name='create_book')
-def create_book(request, book: CreateBookSchema):
-    try:
-        print(book.dict())
-        book = Book.objects.create(**book.dict())
+@router.post('/books',
+            response=BookSchema,
+            url_name='create_book',
+            auth=api_auth_user_required
+            )
+def create_book(request, payload: CreateBookSchema):
+        book = Book.objects.create(**payload.dict())
         return book
-    except Exception as e:
-        raise HTTPError(400, str(e))
 
 
-@router.get('/books/{book_id}', response=BookSchema, url_name='detail_book')
+
+@router.get('/books/{book_id}',
+            response=BookSchema,
+            url_name='detail_book',
+            auth=api_auth_user_or_annon
+            )
 def detail_book(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
     return book
 
 
-@router.put('books/{book_id}', response=BookSchema, url_name='update_book')
+@router.put('books/{book_id}',
+            response=BookSchema,
+            url_name='update_book',
+            auth=api_auth_user_required
+            )
 def update_book(request, book_id: int, payload: CreateBookSchema):
     book = get_object_or_404(Book, id=book_id)
     for attr, value in payload.dict().items():
@@ -41,7 +59,10 @@ def update_book(request, book_id: int, payload: CreateBookSchema):
     return book
 
 
-@router.delete('books/{book_id}', url_name='delete_book')
+@router.delete('books/{book_id}',
+               url_name='delete_book',
+               auth=api_auth_user_required
+               )
 def delete_book(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
     book.delect()
