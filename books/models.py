@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import CustomUser
 
 
 class Book(models.Model):
@@ -7,5 +8,5 @@ class Book(models.Model):
     published_date = models.DateField()
     isbn = models.CharField(max_length=13, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title

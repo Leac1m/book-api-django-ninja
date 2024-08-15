@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from ninja import Query, Router, Field
+from ninja import Query, Router
 from ninja.pagination import paginate, PageNumberPagination
 
 
@@ -8,7 +8,8 @@ from ninja_jwt.controller import NinjaJWTDefaultController
 
 from .auth import api_auth_user_or_annon, api_auth_user_required
 from .models import Book
-from .schemas import BookSchema, CreateBookSchema, BookFilterSchema
+from reviews.models import Review
+from .schemas import BookSchema, CreateBookSchema, BookFilterSchema, BookReviewSchema
 # import helpers
 
 
@@ -41,12 +42,16 @@ def create_book(request, payload: CreateBookSchema):
 
 
 @router.get('/books/{book_id}',
-            response=BookSchema,
+            response=BookReviewSchema,
             url_name='detail_book',
-            auth=api_auth_user_or_annon
+            #auth=api_auth_user_or_annon
             )
 def detail_book(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
+    review = Review.objects.filter(book=book)
+    print(review)
+    book.reviews = list(review)
+    print(book.reviews)
     return book
 
 
