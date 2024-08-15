@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
-from ninja import NinjaAPI, Router
+from ninja import Router, FilterSchema, Field
+from ninja.pagination import paginate, PageNumberPagination
+
 
 from ninja_extra import NinjaExtraAPI
 from ninja_jwt.controller import NinjaJWTDefaultController
@@ -18,8 +20,9 @@ router = Router()
 @router.get('/books',
              response=list[BookSchema],
              url_name='list_books',
-             auth=api_auth_user_or_annon
+             
              )
+@paginate(PageNumberPagination, page_size=50)
 def list_books(request):
     books = Book.objects.all()
     return books
