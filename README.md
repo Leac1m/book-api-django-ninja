@@ -8,7 +8,7 @@ If you run into issues, I'll be more than happy to help.
 
 ## Clone repo
 ```
-git clone <my-repo-url>
+git clone https://github.com/Leac1m/book-api-django-ninja.git
 cd book-api-django-ninja
 ```
 
