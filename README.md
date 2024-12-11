@@ -2,6 +2,20 @@
 
 This project is a RESTful API built with Django Ninja, designed to manage a collection of books and their reviews. It serves as a learning project for understanding the Django Ninja framework and its capabilities.
 
+## Table of Contents
+
+1. [Features](#features)
+2. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+3. [Usage](#usage)
+4. [Project Structure](#project-structure)
+5. [Configuration](#configuration)
+6. [Testing](#testing)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Contact](#contact)
+
 ## Features
 
 - **Book Management**: Create, read, update, and delete books.
@@ -48,37 +62,37 @@ Follow these instructions to set up and run the project on your local machine.
    python3 manage.py runserver
    ```
 
-### Usage
+## Usage
 
 - Access the API at `http://localhost:8000/api/`.
 - Use an API client like Postman to interact with the endpoints.
 
-### Project Structure
+## Project Structure
 
 - **accounts**: Handles user authentication and management.
 - **books**: Manages book-related operations.
 - **reviews**: Manages review-related operations.
 
-### Configuration
+## Configuration
 
 - **Database**: Configured to use SQLite by default. You can change this in `django_project/settings.py` (lines 83-88).
 - **Authentication**: JWT authentication is set up in `books/auth.py` (lines 1-10).
 
-### Testing
+## Testing
 
 Run the tests using:
 ```bash
 python3 manage.py test
 ```
 
-### Contributing
+## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
 
-### License
+## License
 
 This project is licensed under the MIT License.
 
-### Contact
+## Contact
 
 For any questions or issues, please open an issue on the GitHub repository.
